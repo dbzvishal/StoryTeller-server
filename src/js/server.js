@@ -15,15 +15,9 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const lobbyProto = grpc.loadPackageDefinition(packageDefinition).lobby;
 
 // The actual implementation of the gRPC service methods
-const joinLobby = (call) => {
-  call.on('data', (request) => {
-    console.log(`User is joining lobby: ${request.name}`);
-    // You can push updates to the client using call.write()
-  });
-
-  call.on('end', () => {
-    call.end();
-  });
+const joinLobby = (call, callback) => {
+  console.log(`User is joining lobby: ${call.request.name}`);
+  callback(null, { message: `User is joining lobby: ${call.request.name}` });
 };
 
 const createLobby = (call, callback) => {
